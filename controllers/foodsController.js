@@ -1,4 +1,33 @@
 const foodsmodel = require('../models/foodsModel')
+const potosmodel = require('../models/potosModel')
+const upload = require('../helper/fileupload')
+
+const methodUploadFoods = async (req,res) => {
+    try {
+
+        // untuk upload filenya
+        await upload(req,res);
+
+        if(req.file == undefined){
+            console.error(req.file)
+            return res.status(400).send({message: "Image belum dipilih"})
+        }
+
+        // untuk urusan DB
+        potosmodel.create({
+            idFoods : req.body.idFoods,
+            path :req.file.originalname
+        }).then ((data) =>{
+            res.status(200).send({
+                message:"file berhasil di upload" + data.path
+            })
+        })
+
+    } catch(error){
+        console.log(error.message)
+        res.status(400).send('error bos')
+    }
+}
 
 const methodPost = async (req,res) => {
     try {
@@ -83,5 +112,6 @@ module.exports = {
     methodGet,
     methodGetId,
     methodPut,
-    methodDelete
+    methodDelete,
+    methodUploadFoods
 }
