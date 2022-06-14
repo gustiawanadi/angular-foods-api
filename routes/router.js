@@ -1,21 +1,13 @@
 const express   = require('express')
 // const { route } = require('express/lib/application');
 const router    = express.Router();
+const sampleController = require('../controllers/sampleController')
+router.get('/', sampleController.methodGet)
 
-router.get('/', function (req, res) {
-    res.send("Contoh menggunakan get")
-})
+router.post('/', sampleController.methodPost)
 
-router.post('/', function (req, res) {
-    res.send("Contoh menggunakan POST")
-})
+router.put('/', sampleController.methodPut)
 
-router.put('/', function (req, res) {
-    res.send("Contoh menggunakan PUT")
-})
-
-router.delete('/', function (req, res) {
-    res.send("Contoh menggunakan DELETE")
-})
+router.delete('/', sampleController.methodDelete)
 
 module.exports = router
