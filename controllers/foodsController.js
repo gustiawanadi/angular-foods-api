@@ -1,6 +1,43 @@
 const foodsmodel = require('../models/foodsModel')
 const potosmodel = require('../models/potosModel')
 const upload = require('../helper/fileupload')
+const { Op } = require('sequelize') // untuk searching / condition
+
+const methodGetCondition = async (req,res) => {
+    const param1 = req.body.namamakanan
+    const param2 = req.body.daerah
+    try {
+        const getData = await foodsmodel.findAll({
+            // untuk menampilkan beberapa data saja
+            attributes:[['namamakanan', 'nama makanan'],['deskripsi', 'desc']],
+            // where:{
+                // kondisi ATAU
+            //     // [Op.or]:[
+            //     //     {namamakanan:param1},
+            //     //     {daerah:param2},
+            //     // ]
+            //      kondisi DAN
+            //     // [Op.and]:[
+            //     //     {namamakanan:param1},
+            //     //     {daerah:param2},
+            //     // ]
+            //      kondisi IN
+            //     // namamakanan: {
+            //     //     [Op.in]:[param1, param2]
+            //     // }
+            //      kondisi SEARCH berdasarkan huruf
+            //     namamakanan: {
+            //         [Op.like]:['%' + param1 + '%']
+            //     }
+            // },
+            // URUTkan berdasarkan nama makanan
+            order : [['namamakanan','asc']]
+        })
+        res.json(getData)
+    } catch(error){
+        res.status(400).send('error bos')
+    }
+}
 
 const methodUploadFoods = async (req,res) => {
     try {
@@ -113,5 +150,6 @@ module.exports = {
     methodGetId,
     methodPut,
     methodDelete,
-    methodUploadFoods
+    methodUploadFoods,
+    methodGetCondition
 }
