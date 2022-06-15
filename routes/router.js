@@ -3,6 +3,7 @@ const express   = require('express')
 const router    = express.Router();
 const sampleController = require('../controllers/sampleController')
 const foodController = require('../controllers/foodsController');
+const authController = require('../controllers/auth');
 const { route } = require('express/lib/application');
 
 router.get('/', sampleController.methodGet)
@@ -20,4 +21,6 @@ router.post('/foods/upload', foodController.methodUploadFoods)
 
 router.post('/foods/search', foodController.methodGetCondition)
 
+router.post('/auth/register', authController.register)
+router.post('/auth/login', authController.login)
 module.exports = router
